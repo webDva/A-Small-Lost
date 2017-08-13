@@ -15,6 +15,20 @@ const randomEnemySprite = kontra.sprite({
     color: 'red'
 });
 
+// Create a recycling generic bullet particle that will be used by both player and enemies.
+const genericBulletPool = kontra.pool({
+    create: kontra.sprite,
+    maxSize: 5000
+});
+
+// Generic bullet's default properties
+const defaultGenericBullet = {
+    ttl: 60, // would like 12 seconds for each bullet
+    width: 4,
+    height: 4,
+    color: 'red'
+};
+
 // Game loop object
 const mainGameLoop = kontra.gameLoop({
     /*
@@ -22,6 +36,22 @@ const mainGameLoop = kontra.gameLoop({
      */
     update: function() {
         randomEnemySprite.update();
+        
+        for (let i = 0; i < 300; i++) {
+            genericBulletPool.get({
+                ttl: defaultGenericBullet.ttl,
+                width: defaultGenericBullet.width,
+                height: defaultGenericBullet.height,
+                color: defaultGenericBullet.color,
+                
+                x: kontra.canvas.width / 2,
+                y: kontra.canvas.height / 2,
+                dx: 2 - Math.random() * 4,
+                dy: 2 - Math.random() * 4
+            });
+        }
+        
+        genericBulletPool.update();
     },
     
     /*
@@ -29,6 +59,8 @@ const mainGameLoop = kontra.gameLoop({
      */
     render: function() {
         randomEnemySprite.render();
+        
+        genericBulletPool.render();
     }
 });
 
