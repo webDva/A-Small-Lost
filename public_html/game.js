@@ -38,7 +38,7 @@ const mainGameLoop = kontra.gameLoop({
         randomEnemySprite.update();
 
         // Create a bullet pattern.
-        for (let i = 0; i < 300; i++) {
+        for (let i = 0; i < 600; i++) {
             genericBulletPool.get({
                 ttl: defaultGenericBullet.ttl,
                 width: defaultGenericBullet.width,
@@ -49,11 +49,12 @@ const mainGameLoop = kontra.gameLoop({
                 y: kontra.canvas.height / 2,
                 dx: 0,
                 dy: 0,
-                update: function () {
+                theta: i,
+                update: function () { 
                     this.advance();
-                    const theta = i / 50 * Math.PI * 16;
-                    this.dx += Math.cos(theta) * 0.02;
-                    this.dy += Math.sin(theta) * 0.02;
+                    this.theta += i / 360 * Math.PI;
+                    this.dx += Math.cos(this.theta) * 0.1;
+                    this.dy += Math.sin(this.theta) * 0.1;
                 }
             });
         }
