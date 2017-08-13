@@ -1,0 +1,4 @@
+/* global kontra */
+
+kontra.init();
+
