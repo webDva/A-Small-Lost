@@ -18,7 +18,7 @@ const randomEnemySprite = kontra.sprite({
 // Create a recycling generic bullet particle that will be used by both player and enemies.
 const genericBulletPool = kontra.pool({
     create: kontra.sprite,
-    maxSize: 5000
+    maxSize: 9000
 });
 
 // Generic bullet's default properties
