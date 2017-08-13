@@ -23,7 +23,7 @@ const genericBulletPool = kontra.pool({
 
 // Generic bullet's default properties
 const defaultGenericBullet = {
-    ttl: 600, // would like 12 seconds for each bullet
+    ttl: 390, // would like 6.5 seconds for each bullet
     width: 4,
     height: 4,
     color: 'red'
