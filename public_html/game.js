@@ -23,7 +23,7 @@ const genericBulletPool = kontra.pool({
 
 // Generic bullet's default properties
 const defaultGenericBullet = {
-    ttl: 150, // would like 12 seconds for each bullet
+    ttl: 600, // would like 12 seconds for each bullet
     width: 4,
     height: 4,
     color: 'red'
@@ -53,8 +53,8 @@ const mainGameLoop = kontra.gameLoop({
                 update: function () { 
                     this.advance();
                     this.theta += i / 360 * Math.PI;
-                    this.dx += Math.cos(this.theta) * 0.1;
-                    this.dy += Math.sin(this.theta) * 0.1;
+                    this.dx += Math.cos(this.theta) * 0.3;
+                    this.dy += Math.sin(this.theta) * 0.3;
                 }
             });
         }
