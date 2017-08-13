@@ -23,7 +23,7 @@ const genericBulletPool = kontra.pool({
 
 // Generic bullet's default properties
 const defaultGenericBullet = {
-    ttl: 60, // would like 12 seconds for each bullet
+    ttl: 150, // would like 12 seconds for each bullet
     width: 4,
     height: 4,
     color: 'red'
@@ -34,32 +34,39 @@ const mainGameLoop = kontra.gameLoop({
     /*
      * Used for controlling the game logic.
      */
-    update: function() {
+    update: function () {
         randomEnemySprite.update();
-        
+
+        // Create a bullet pattern.
         for (let i = 0; i < 300; i++) {
             genericBulletPool.get({
                 ttl: defaultGenericBullet.ttl,
                 width: defaultGenericBullet.width,
                 height: defaultGenericBullet.height,
                 color: defaultGenericBullet.color,
-                
+
                 x: kontra.canvas.width / 2,
                 y: kontra.canvas.height / 2,
-                dx: 2 - Math.random() * 4,
-                dy: 2 - Math.random() * 4
+                dx: 0,
+                dy: 0,
+                update: function () {
+                    this.advance();
+                    const theta = i / 50 * Math.PI * 16;
+                    this.dx += Math.cos(theta) * 0.02;
+                    this.dy += Math.sin(theta) * 0.02;
+                }
             });
         }
-        
+
         genericBulletPool.update();
     },
-    
+
     /*
      * Used for rendering only, it seems.
      */
-    render: function() {
+    render: function () {
         randomEnemySprite.render();
-        
+
         genericBulletPool.render();
     }
 });
