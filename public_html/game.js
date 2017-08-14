@@ -18,7 +18,10 @@ class ExistenceBox {
             color: 'red',
             width: WIDTH_AND_HEIGHT,
             height: WIDTH_AND_HEIGHT,
-            isChosen: false, // A custom property
+            
+            isChosen: false, 
+            damage: 0,            
+            
             update: () => {
                 if (this.sprite.isChosen) {
                     this.sprite.color = 'green';
