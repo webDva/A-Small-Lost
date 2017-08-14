@@ -47,6 +47,7 @@ kontra.keys.bind(['a', 'left'], () => {
     } else {
         chosenBox--;
     }
+    playingFieldArray[chosenBox].sprite.isChosen = true;
 });
 
 kontra.keys.bind(['d', 'right'], () => {
@@ -56,6 +57,7 @@ kontra.keys.bind(['d', 'right'], () => {
     } else {
         chosenBox++;
     }
+    playingFieldArray[chosenBox].sprite.isChosen = true;
 });
 
 // Game loop object
@@ -64,8 +66,6 @@ const mainGameLoop = kontra.gameLoop({
      * Used for controlling the game logic.
      */
     update: function () {
-        playingFieldArray[chosenBox].sprite.isChosen = true;
-        // Why update the sprites that don't do anything? Can this be removed?
         playingFieldArray.forEach((item) => {
             item.sprite.update();
         });
