@@ -18,15 +18,27 @@ class ExistenceBox {
             color: 'red',
             width: WIDTH_AND_HEIGHT,
             height: WIDTH_AND_HEIGHT,
-            
-            isChosen: false, 
-            damage: 0,            
-            
+
+            isChosen: false,
+            damage: 0, // 0-100
+
             update: () => {
                 if (this.sprite.isChosen) {
                     this.sprite.color = 'green';
                 } else {
                     this.sprite.color = 'red';
+                }
+            },
+
+            // Used for drawing the sprite's color based on its damage value.
+            render: () => {
+                this.sprite.draw(); // So we don't completely override the sprite's rendering function.
+
+                if (!this.sprite.isChosen) {
+                    this.sprite.context.fillStyle = 'rgb(' + (198 * this.sprite.damage) / 100
+                            + ',' + (18 * this.sprite.damage) / 100
+                            + ',' + (134 * this.sprite.damage) / 100 + ')';
+                    this.sprite.context.fillRect(this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height);
                 }
             }
         });
@@ -55,7 +67,7 @@ kontra.keys.bind(['a', 'left'], () => {
 
 kontra.keys.bind(['d', 'right'], () => {
     playingFieldArray[chosenBox].sprite.isChosen = false;
-    if (chosenBox===playingFieldArray.length - 1) {
+    if (chosenBox === playingFieldArray.length - 1) {
         chosenBox = 0;
     } else {
         chosenBox++;
