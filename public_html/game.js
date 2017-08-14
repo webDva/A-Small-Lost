@@ -6,20 +6,19 @@ kontra.init(); // Initializing the Kontra library.
 
 // Creating an enemy that randomly appears on-screen.
 
-// The sprite for the enemy. A custom sprite.
-function CustomRandomEnemySprite(properties) {
-    properties.ttl = 500;
-    properties.width = 32;
-    properties.height = 32;
-    properties.color = 'red';
+// Default random enemy sprite.
+const randomEnemySprite = {
+    ttl: 500,
+    width: 32,
+    height: 32,
+    color: 'red',
 
-    // Initialize the sprite.
-    kontra.sprite.prototype.init.call(this, properties);
-}
-CustomRandomEnemySprite.prototype = Object.create(kontra.sprite.prototype);
+    x: Math.floor(Math.random() * (Math.floor(kontra.canvas.width) - Math.ceil(0))) + Math.ceil(0),
+    y: Math.floor(Math.random() * (Math.floor(kontra.canvas.height) - Math.ceil(0))) + Math.ceil(0)
+};
 
-// Creating custom functions for the custom random enemy sprite, such as shooting bullets.
-CustomRandomEnemySprite.prototype.shootBullets = function () {
+// Spawns bullets for random enemies.
+var shootBullets = function (enemyX, enemyY) {
     // Use bullet pattern #2.
     for (let i = 0; i < 600; i++) {
         genericBulletPool.get({
@@ -28,8 +27,8 @@ CustomRandomEnemySprite.prototype.shootBullets = function () {
             height: defaultGenericBullet.height,
             color: 'green',
 
-            x: this.x,
-            y: this.y,
+            x: enemyX,
+            y: enemyY,
 
             theta: i,
             update: function () {
@@ -44,9 +43,7 @@ CustomRandomEnemySprite.prototype.shootBullets = function () {
 
 // Create an object pool for the random enemy sprite
 const randomEnemyPool = kontra.pool({
-    create: function () {
-        return new CustomRandomEnemySprite({});
-    },
+    create: kontra.sprite,
     maxSize: 9000
 });
 
@@ -73,11 +70,11 @@ const mainGameLoop = kontra.gameLoop({
         // Generate random enemies.
         for (let i = 0; i < 20; i++) {
             randomEnemyPool.get({
-                x: Math.floor(Math.random() * (Math.floor(kontra.canvas.width) - Math.ceil(-kontra.canvas.width))) + Math.ceil(-kontra.canvas.width),
-                y: Math.floor(Math.random() * (Math.floor(kontra.canvas.height) - Math.ceil(-kontra.canvas.height))) + Math.ceil(-kontra.canvas.height),
+                x: Math.floor(Math.random() * (Math.floor(kontra.canvas.width) - Math.ceil(0))) + Math.ceil(0),
+                y: Math.floor(Math.random() * (Math.floor(kontra.canvas.height) - Math.ceil(0))) + Math.ceil(0),
                 update: function () {
                     this.advance();
-                    this.shootBullets();
+                    shootBullets(this.x, this.y);
                 }
             });
         }
