@@ -8,7 +8,7 @@ kontra.init(); // Initializing the Kontra library.
 
 // Default random enemy sprite.
 const randomEnemySprite = {
-    ttl: 390,
+    ttl: 120,
     width: 4,
     height: 4,
     color: 'red'
@@ -41,7 +41,7 @@ var shootBullets = function (enemyX, enemyY) {
 // Create an object pool for the random enemy sprite
 const randomEnemyPool = kontra.pool({
     create: kontra.sprite,
-    maxSize: 20
+    maxSize: 30
 });
 
 // Create a recycling generic bullet particle that will be used by both player and enemies.
