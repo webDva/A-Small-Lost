@@ -8,13 +8,10 @@ kontra.init(); // Initializing the Kontra library.
 
 // Default random enemy sprite.
 const randomEnemySprite = {
-    ttl: 500,
-    width: 32,
-    height: 32,
-    color: 'red',
-
-    x: Math.floor(Math.random() * (Math.floor(kontra.canvas.width) - Math.ceil(0))) + Math.ceil(0),
-    y: Math.floor(Math.random() * (Math.floor(kontra.canvas.height) - Math.ceil(0))) + Math.ceil(0)
+    ttl: 60,
+    width: 4,
+    height: 4,
+    color: 'red'
 };
 
 // Spawns bullets for random enemies.
@@ -56,8 +53,8 @@ const genericBulletPool = kontra.pool({
 // Generic bullet's default properties
 const defaultGenericBullet = {
     ttl: 390, // would like 6.5 seconds for each bullet
-    width: 4,
-    height: 4,
+    width: 1,
+    height: 1,
     color: 'red'
 };
 
@@ -70,10 +67,14 @@ const mainGameLoop = kontra.gameLoop({
         // Generate random enemies.
         for (let i = 0; i < 20; i++) {
             randomEnemyPool.get({
+                ttl: randomEnemySprite.ttl,
+                width:randomEnemySprite.width,
+                height:randomEnemySprite.height,
+                color:randomEnemySprite.color,
                 x: Math.floor(Math.random() * (Math.floor(kontra.canvas.width) - Math.ceil(0))) + Math.ceil(0),
                 y: Math.floor(Math.random() * (Math.floor(kontra.canvas.height) - Math.ceil(0))) + Math.ceil(0),
                 update: function () {
-                    this.advance();
+                    //this.advance();
                     shootBullets(this.x, this.y);
                 }
             });
