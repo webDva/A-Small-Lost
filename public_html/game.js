@@ -32,10 +32,26 @@ class ExistenceBox {
     }
 }
 
+// Arrow selector for selecting boxes.
+class ArrowSelector {
+    constructor(xPosition) {
+        this.sprite = kontra.sprite({
+            x: xPosition,
+            y: (kontra.canvas.height / 2) + (WIDTH_AND_HEIGHT + 10),
+            color: 'white', // A white box for now--or, maybe, forever!
+            width: WIDTH_AND_HEIGHT,
+            height: WIDTH_AND_HEIGHT
+        });
+    }
+}
+
 // Sprites to represent player's chosen array index.
 for (let i = 0; i < playingFieldArray.length; i++) {
     playingFieldArray[i] = new ExistenceBox((i + WIDTH_AND_HEIGHT) * i);
 }
+
+// Create box to represent a selector.
+let selector = new ArrowSelector(0);
 
 // Player's chosen box in the playing field. Initially random.
 let chosenBox = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
@@ -82,18 +98,26 @@ const mainGameLoop = kontra.gameLoop({
      * Used for controlling the game logic.
      */
     update: function () {
+        // Perform the playing field's logic.
         playingFieldArray.forEach((item) => {
             item.sprite.update();
         });
+        
+        // Let selector perform it's logic.
+        selector.sprite.update();
     },
 
     /*
      * Used for rendering only.
      */
     render: function () {
+        // Render the playing field.
         playingFieldArray.forEach((item) => {
             item.sprite.render();
         });
+        
+        // Render the selector.
+        selector.sprite.render();
     }
 });
 
