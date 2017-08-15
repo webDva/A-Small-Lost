@@ -20,25 +20,12 @@ class ExistenceBox {
             height: WIDTH_AND_HEIGHT,
 
             isChosen: false,
-            damage: 100, // 0 to 100
 
             update: () => {
                 if (this.sprite.isChosen) {
                     this.sprite.color = 'green';
                 } else {
                     this.sprite.color = 'red';
-                }
-            },
-
-            // Used for drawing the sprite's color based on its damage value.
-            render: () => {
-                this.sprite.draw(); // So we don't completely override the sprite's rendering function.
-
-                if (!this.sprite.isChosen) {
-                    this.sprite.context.fillStyle = 'rgb(' + Math.floor(255 - this.sprite.damage) 
-                            + ',' + Math.floor(255 - this.sprite.damage)
-                            + ',0)';
-                    this.sprite.context.fillRect(this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height);
                 }
             }
         });
@@ -54,7 +41,7 @@ for (let i = 0; i < playingFieldArray.length; i++) {
 let chosenBox = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
 playingFieldArray[chosenBox].sprite.isChosen = true;
 
-// Binding keys for the player to choice a box.
+// Binding keys for the player to choose a box.
 kontra.keys.bind(['a', 'left'], () => {
     playingFieldArray[chosenBox].sprite.isChosen = false;
     if (chosenBox === 0) {
@@ -74,6 +61,20 @@ kontra.keys.bind(['d', 'right'], () => {
     }
     playingFieldArray[chosenBox].sprite.isChosen = true;
 });
+
+// key binding for destorying a box
+kontra.keys.bind(['enter', 'space'], () => {
+    playingFieldArray[chosenBox].sprite.isChosen = false;
+    if (chosenBox === playingFieldArray.length - 1) {
+        playingFieldArray.pop(); 
+        chosenBox = 0;
+    } else {
+        playingFieldArray.splice(chosenBox, 1);
+    }
+    playingFieldArray[chosenBox].sprite.isChosen = true;
+});
+
+// 
 
 // Game loop object
 const mainGameLoop = kontra.gameLoop({
