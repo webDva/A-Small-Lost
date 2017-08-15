@@ -54,40 +54,40 @@ for (let i = 0; i < playingFieldArray.length; i++) {
 let selector = new ArrowSelector(0);
 
 // Player's chosen box in the playing field. Initially random.
-let chosenBox = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
-playingFieldArray[chosenBox].sprite.isChosen = true;
+let gameChosenBox = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
+playingFieldArray[gameChosenBox].sprite.isChosen = true;
 
 // Binding keys for the player to choose a box.
 kontra.keys.bind(['a', 'left'], () => {
-    playingFieldArray[chosenBox].sprite.isChosen = false;
-    if (chosenBox === 0) {
-        chosenBox = playingFieldArray.length - 1;
+    playingFieldArray[gameChosenBox].sprite.isChosen = false;
+    if (gameChosenBox === 0) {
+        gameChosenBox = playingFieldArray.length - 1;
     } else {
-        chosenBox--;
+        gameChosenBox--;
     }
-    playingFieldArray[chosenBox].sprite.isChosen = true;
+    playingFieldArray[gameChosenBox].sprite.isChosen = true;
 });
 
 kontra.keys.bind(['d', 'right'], () => {
-    playingFieldArray[chosenBox].sprite.isChosen = false;
-    if (chosenBox === playingFieldArray.length - 1) {
-        chosenBox = 0;
+    playingFieldArray[gameChosenBox].sprite.isChosen = false;
+    if (gameChosenBox === playingFieldArray.length - 1) {
+        gameChosenBox = 0;
     } else {
-        chosenBox++;
+        gameChosenBox++;
     }
-    playingFieldArray[chosenBox].sprite.isChosen = true;
+    playingFieldArray[gameChosenBox].sprite.isChosen = true;
 });
 
 // key binding for destorying a box
 kontra.keys.bind(['enter', 'space'], () => {
-    playingFieldArray[chosenBox].sprite.isChosen = false;
-    if (chosenBox === playingFieldArray.length - 1) {
+    playingFieldArray[gameChosenBox].sprite.isChosen = false;
+    if (gameChosenBox === playingFieldArray.length - 1) {
         playingFieldArray.pop(); 
-        chosenBox = 0;
+        gameChosenBox = 0;
     } else {
-        playingFieldArray.splice(chosenBox, 1);
+        playingFieldArray.splice(gameChosenBox, 1);
     }
-    playingFieldArray[chosenBox].sprite.isChosen = true;
+    playingFieldArray[gameChosenBox].sprite.isChosen = true;
 });
 
 // 
