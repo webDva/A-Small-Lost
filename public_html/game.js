@@ -40,7 +40,11 @@ class ArrowSelector {
             y: (kontra.canvas.height / 2) + (WIDTH_AND_HEIGHT + 10),
             color: 'white', // A white box for now--or, maybe, forever!
             width: WIDTH_AND_HEIGHT,
-            height: WIDTH_AND_HEIGHT
+            height: WIDTH_AND_HEIGHT,
+            update: () => {
+                // Change the selector's position to the selected box's position.
+                this.sprite.x = playingFieldArray[selectedBox].sprite.x;
+            }
         });
     }
 }
@@ -53,7 +57,7 @@ for (let i = 0; i < playingFieldArray.length; i++) {
 // Create box to represent a selector.
 let selector = new ArrowSelector(0);
 
-// Player's chosen box in the playing field. Initially random.
+// Chosen box in the playing field. Initially random.
 let gameChosenBox = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
 playingFieldArray[gameChosenBox].sprite.isChosen = true;
 
@@ -62,35 +66,29 @@ let selectedBox = 0;
 
 // Binding keys for the player to choose a box.
 kontra.keys.bind(['a', 'left'], () => {
-    playingFieldArray[gameChosenBox].sprite.isChosen = false;
-    if (gameChosenBox === 0) {
-        gameChosenBox = playingFieldArray.length - 1;
+    if (selectedBox === 0) {
+        selectedBox = playingFieldArray.length - 1;
     } else {
-        gameChosenBox--;
+        selectedBox--;
     }
-    playingFieldArray[gameChosenBox].sprite.isChosen = true;
 });
 
 kontra.keys.bind(['d', 'right'], () => {
-    playingFieldArray[gameChosenBox].sprite.isChosen = false;
-    if (gameChosenBox === playingFieldArray.length - 1) {
-        gameChosenBox = 0;
+    if (selectedBox === playingFieldArray.length - 1) {
+        selectedBox = 0;
     } else {
-        gameChosenBox++;
+        selectedBox++;
     }
-    playingFieldArray[gameChosenBox].sprite.isChosen = true;
 });
 
 // key binding for destorying a box
 kontra.keys.bind(['enter', 'space'], () => {
-    playingFieldArray[gameChosenBox].sprite.isChosen = false;
-    if (gameChosenBox === playingFieldArray.length - 1) {
-        playingFieldArray.pop(); 
-        gameChosenBox = 0;
+    if (selectedBox === playingFieldArray.length - 1) {
+        playingFieldArray.pop();
+        selectedBox = 0;
     } else {
-        playingFieldArray.splice(gameChosenBox, 1);
+        playingFieldArray.splice(selectedBox, 1);
     }
-    playingFieldArray[gameChosenBox].sprite.isChosen = true;
 });
 
 // 
@@ -105,7 +103,7 @@ const mainGameLoop = kontra.gameLoop({
         playingFieldArray.forEach((item) => {
             item.sprite.update();
         });
-        
+
         // Let selector perform it's logic.
         selector.sprite.update();
     },
@@ -118,7 +116,7 @@ const mainGameLoop = kontra.gameLoop({
         playingFieldArray.forEach((item) => {
             item.sprite.render();
         });
-        
+
         // Render the selector.
         selector.sprite.render();
     }
