@@ -20,7 +20,7 @@ class ExistenceBox {
             height: WIDTH_AND_HEIGHT,
 
             isChosen: false,
-            damage: 0, // 0-100
+            damage: 100, // 0 to 100
 
             update: () => {
                 if (this.sprite.isChosen) {
@@ -35,9 +35,9 @@ class ExistenceBox {
                 this.sprite.draw(); // So we don't completely override the sprite's rendering function.
 
                 if (!this.sprite.isChosen) {
-                    this.sprite.context.fillStyle = 'rgb(' + (198 * this.sprite.damage) / 100
-                            + ',' + (18 * this.sprite.damage) / 100
-                            + ',' + (134 * this.sprite.damage) / 100 + ')';
+                    this.sprite.context.fillStyle = 'rgb(' + Math.floor(255 - this.sprite.damage) 
+                            + ',' + Math.floor(255 - this.sprite.damage)
+                            + ',0)';
                     this.sprite.context.fillRect(this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height);
                 }
             }
