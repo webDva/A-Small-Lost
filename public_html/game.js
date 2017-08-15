@@ -57,6 +57,9 @@ let selector = new ArrowSelector(0);
 let gameChosenBox = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
 playingFieldArray[gameChosenBox].sprite.isChosen = true;
 
+// A player selected box, which is different from a game chosen box.
+let selectedBox = 0;
+
 // Binding keys for the player to choose a box.
 kontra.keys.bind(['a', 'left'], () => {
     playingFieldArray[gameChosenBox].sprite.isChosen = false;
