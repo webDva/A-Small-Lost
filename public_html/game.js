@@ -60,7 +60,11 @@ let selector = new ArrowSelector(0);
 // Chosen boxes in the playing field.
 let gameChosenBoxes = [];
 do {
-    gameChosenBoxes.push(Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0));
+    // Don't add duplicates and don't add more than the number of boxes in the playing field.
+    const randomChoice = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
+    if (!gameChosenBoxes.includes(randomChoice) || gameChosenBoxes.length === playingFieldArray.length) {
+        gameChosenBoxes.push(randomChoice);
+    }
     // Stop the loop based on a 50-50 chance.
 } while (Math.random() >= 0.5);
 for (let i = 0; i < gameChosenBoxes.length; i++) {
