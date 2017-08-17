@@ -49,9 +49,9 @@ class ArrowSelector {
     }
 }
 
-// Sprites to represent player's chosen array index.
+// Creating playing field boxes.
 for (let i = 0; i < playingFieldArray.length; i++) {
-    playingFieldArray[i] = new ExistenceBox((i + WIDTH_AND_HEIGHT) * i);
+    playingFieldArray[i] = new ExistenceBox((1 + WIDTH_AND_HEIGHT) * i);
 }
 
 // Create box to represent a selector.
