@@ -4,10 +4,10 @@
 
 kontra.init(); // Initializing the Kontra library.
 
-// Creating an array that will be used to contain existence boxes.
-let playingFieldArray = new Array(5);
-
 const WIDTH_AND_HEIGHT = 64;
+
+// Creating an array that will be used to contain existence boxes.
+let playingFieldArray = new Array(Math.floor(kontra.canvas.width / WIDTH_AND_HEIGHT));
 
 // Super-like class to function as elements in the playing field array.
 class ExistenceBox {
