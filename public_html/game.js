@@ -57,9 +57,15 @@ for (let i = 0; i < playingFieldArray.length; i++) {
 // Create box to represent a selector.
 let selector = new ArrowSelector(0);
 
-// Chosen box in the playing field. Initially random.
-let gameChosenBox = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
-playingFieldArray[gameChosenBox].sprite.isChosen = true;
+// Chosen boxes in the playing field.
+let gameChosenBoxes = [];
+do {
+    gameChosenBoxes.push(Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0));
+    // Stop the loop based on a 50-50 chance.
+} while (Math.random() >= 0.5);
+for (let i = 0; i < gameChosenBoxes.length; i++) {
+    playingFieldArray[gameChosenBoxes[i]].sprite.isChosen = true;
+}
 
 // A player selected box, which is different from a game chosen box.
 let selectedBox = 0;
