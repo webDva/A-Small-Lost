@@ -83,40 +83,47 @@ const startPlayingFieldAgain = function () {
     selector = new ArrowSelector(0); // Create box to represent a selector.
     gameChosenBoxes = pickBoxes(); // Chosen boxes in the playing field.    
     selectedBox = 0; // A player selected box, which is different from a game chosen box.
+
+    // Binding keys for the player to choose a box.
+    kontra.keys.bind(['a', 'left'], () => {
+        if (selectedBox === 0) {
+            selectedBox = playingFieldArray.length - 1;
+        } else {
+            selectedBox--;
+        }
+    });
+
+    kontra.keys.bind(['d', 'right'], () => {
+        if (selectedBox === playingFieldArray.length - 1) {
+            selectedBox = 0;
+        } else {
+            selectedBox++;
+        }
+    });
+
+    // key binding for destorying a box
+    kontra.keys.bind(['enter', 'space'], () => {
+        // If the player selects a trap box, enter a lose state.
+        if (playingFieldArray[selectedBox].sprite.isChosen) {
+            // enter lose state
+            stopEverything();
+            startPlayingFieldAgain();
+        } else if (selectedBox === playingFieldArray.length - 1) {
+            playingFieldArray.pop();
+            selectedBox = 0;
+        } else {
+            playingFieldArray.splice(selectedBox, 1);
+        }
+    });
 };
 
 startPlayingFieldAgain();
 
-// Binding keys for the player to choose a box.
-kontra.keys.bind(['a', 'left'], () => {
-    if (selectedBox === 0) {
-        selectedBox = playingFieldArray.length - 1;
-    } else {
-        selectedBox--;
-    }
-});
-
-kontra.keys.bind(['d', 'right'], () => {
-    if (selectedBox === playingFieldArray.length - 1) {
-        selectedBox = 0;
-    } else {
-        selectedBox++;
-    }
-});
-
-// key binding for destorying a box
-kontra.keys.bind(['enter', 'space'], () => {
-    // If the player selects a trap box, enter a lose state.
-    if (playingFieldArray[selectedBox].sprite.isChosen) {
-        // enter lose state
-        startPlayingFieldAgain();
-    } else if (selectedBox === playingFieldArray.length - 1) {
-        playingFieldArray.pop();
-        selectedBox = 0;
-    } else {
-        playingFieldArray.splice(selectedBox, 1);
-    }
-});
+// Used for entering a lose state.
+const stopEverything = function () {
+    // Disable playing state's keybinds.
+    kontra.keys.unbind(['a', 'left', 'd', 'right', 'enter', 'space'])
+};
 
 // Game loop object
 const mainGameLoop = kontra.gameLoop({
