@@ -103,15 +103,6 @@ kontra.keys.bind(['enter', 'space'], () => {
 
 const selectorMovementRate = 250;
 
-// Move the selector contiously.
-setInterval(() => {
-    if (selectedBox === playingFieldArray.length - 1) {
-        selectedBox = 0;
-    } else {
-        selectedBox++;
-    }
-}, selectorMovementRate);
-
 // Game loop object
 const mainGameLoop = kontra.gameLoop({
     /*
