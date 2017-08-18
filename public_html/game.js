@@ -9,6 +9,7 @@ let playingFieldArray;
 let selector;
 let selectedBox;
 let gameChosenBoxes;
+let winCounter;
 
 // Super-like class to function as elements in the playing field array.
 class ExistenceBox {
@@ -20,10 +21,10 @@ class ExistenceBox {
             width: WIDTH_AND_HEIGHT,
             height: WIDTH_AND_HEIGHT,
 
-            isChosen: false,
+            isTrapBox: false,
 
             update: () => {
-                if (this.sprite.isChosen) {
+                if (this.sprite.isTrapBox) {
                     this.sprite.color = 'green';
                 } else {
                     this.sprite.color = 'red';
@@ -72,7 +73,7 @@ const pickBoxes = function () {
         // Stop the loop based on a 50-50 chance.
     } while (Math.random() >= 0.5);
     for (let i = 0; i < newlyChosenBoxes.length; i++) {
-        playingFieldArray[newlyChosenBoxes[i]].sprite.isChosen = true;
+        playingFieldArray[newlyChosenBoxes[i]].sprite.isTrapBox = true;
     }
     return newlyChosenBoxes;
 };
@@ -104,25 +105,29 @@ const startPlayingFieldAgain = function () {
     // key binding for destorying a box
     kontra.keys.bind(['enter', 'space'], () => {
         // If the player selects a trap box, enter a lose state.
-        if (playingFieldArray[selectedBox].sprite.isChosen) {
+        if (playingFieldArray[selectedBox].sprite.isTrapBox) {
             // enter lose state
             stopEverything();
             startPlayingFieldAgain();
-        } else if (selectedBox === playingFieldArray.length - 1) {
-            playingFieldArray.pop();
-            selectedBox = 0;
+            // Otherwise, the player chose a safe box.    
         } else {
-            playingFieldArray.splice(selectedBox, 1);
+            if (selectedBox === playingFieldArray.length - 1) {
+                playingFieldArray.pop();
+                selectedBox = 0;
+            } else {
+                playingFieldArray.splice(selectedBox, 1);
+            }
         }
     });
 };
 
+// Initializing game state on first run.
 startPlayingFieldAgain();
 
 // Used for entering a lose state.
 const stopEverything = function () {
     // Disable playing state's keybinds.
-    kontra.keys.unbind(['a', 'left', 'd', 'right', 'enter', 'space'])
+    kontra.keys.unbind(['a', 'left', 'd', 'right', 'enter', 'space']);
 };
 
 // Game loop object
