@@ -5,6 +5,10 @@
 kontra.init(); // Initializing the Kontra library.
 
 const WIDTH_AND_HEIGHT = 64;
+let playingFieldArray;
+let selector;
+let selectedBox;
+let gameChosenBoxes;
 
 // Super-like class to function as elements in the playing field array.
 class ExistenceBox {
@@ -39,9 +43,6 @@ const createNewPlayingField = function () {
     return newPlayingFieldArray;
 };
 
-// Creating an array that will be used to contain boxes.
-let playingFieldArray = createNewPlayingField();
-
 // Arrow selector for selecting boxes.
 class ArrowSelector {
     constructor(xPosition) {
@@ -58,9 +59,6 @@ class ArrowSelector {
         });
     }
 }
-
-// Create box to represent a selector.
-let selector = new ArrowSelector(0);
 
 // Randomly decides which boxes are traps.
 const pickBoxes = function () {
@@ -79,11 +77,15 @@ const pickBoxes = function () {
     return newlyChosenBoxes;
 };
 
-// Chosen boxes in the playing field.
-let gameChosenBoxes = pickBoxes();
+// Will use this for restarting the game state when the player loses.
+const startPlayingFieldAgain = function () {
+    playingFieldArray = createNewPlayingField(); // Creating an array that will be used to contain boxes.    
+    selector = new ArrowSelector(0); // Create box to represent a selector.
+    gameChosenBoxes = pickBoxes(); // Chosen boxes in the playing field.    
+    selectedBox = 0; // A player selected box, which is different from a game chosen box.
+};
 
-// A player selected box, which is different from a game chosen box.
-let selectedBox = 0;
+startPlayingFieldAgain();
 
 // Binding keys for the player to choose a box.
 kontra.keys.bind(['a', 'left'], () => {
@@ -116,13 +118,6 @@ kontra.keys.bind(['enter', 'space'], () => {
         playingFieldArray.splice(selectedBox, 1);
     }
 });
-
-// Will use this for restarting the game state when the player loses.
-const startPlayingFieldAgain = function () {
-    selectedBox = 0;
-    playingFieldArray = createNewPlayingField();
-    gameChosenBoxes = pickBoxes();
-};
 
 // Game loop object
 const mainGameLoop = kontra.gameLoop({
