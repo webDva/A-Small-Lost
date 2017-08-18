@@ -101,7 +101,10 @@ kontra.keys.bind(['enter', 'space'], () => {
     }
 });
 
-const selectorMovementRate = 250;
+// Will use this for restarting the game state when the player loses.
+const startPlayingField = function () {
+    
+};
 
 // Game loop object
 const mainGameLoop = kontra.gameLoop({
