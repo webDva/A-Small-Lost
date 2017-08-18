@@ -110,8 +110,7 @@ kontra.keys.bind(['enter', 'space'], () => {
     if (playingFieldArray[selectedBox].sprite.isChosen) {
         // enter lose state
         startPlayingFieldAgain();
-    }
-    if (selectedBox === playingFieldArray.length - 1) {
+    } else if (selectedBox === playingFieldArray.length - 1) {
         playingFieldArray.pop();
         selectedBox = 0;
     } else {
