@@ -81,7 +81,6 @@ const pickBoxes = function () {
 
 // Chosen boxes in the playing field.
 let gameChosenBoxes = pickBoxes();
-;
 
 // A player selected box, which is different from a game chosen box.
 let selectedBox = 0;
@@ -108,7 +107,7 @@ kontra.keys.bind(['enter', 'space'], () => {
     // If the player selects a trap box, enter a lose state.
     if (playingFieldArray[selectedBox].sprite.isChosen) {
         // enter lose state
-        console.log('bang');
+        startPlayingFieldAgain();
     }
     if (selectedBox === playingFieldArray.length - 1) {
         playingFieldArray.pop();
@@ -119,8 +118,10 @@ kontra.keys.bind(['enter', 'space'], () => {
 });
 
 // Will use this for restarting the game state when the player loses.
-const startPlayingField = function () {
-
+const startPlayingFieldAgain = function () {
+    selectedBox = 0;
+    playingFieldArray = createNewPlayingField();
+    gameChosenBoxes = pickBoxes();
 };
 
 // Game loop object
