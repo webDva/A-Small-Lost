@@ -6,9 +6,6 @@ kontra.init(); // Initializing the Kontra library.
 
 const WIDTH_AND_HEIGHT = 64;
 
-// Creating an array that will be used to contain existence boxes.
-let playingFieldArray = new Array(Math.floor(kontra.canvas.width / WIDTH_AND_HEIGHT));
-
 // Super-like class to function as elements in the playing field array.
 class ExistenceBox {
     constructor(xPosition) {
@@ -32,6 +29,19 @@ class ExistenceBox {
     }
 }
 
+// Function for creating new playing fields and initializing them.
+const createNewPlayingField = function () {
+    let newPlayingFieldArray = new Array(Math.floor(kontra.canvas.width / WIDTH_AND_HEIGHT));
+    // Creating playing field boxes.
+    for (let i = 0; i < newPlayingFieldArray.length; i++) {
+        newPlayingFieldArray[i] = new ExistenceBox((1 + WIDTH_AND_HEIGHT) * i);
+    }
+    return newPlayingFieldArray;
+};
+
+// Creating an array that will be used to contain boxes.
+let playingFieldArray = createNewPlayingField();
+
 // Arrow selector for selecting boxes.
 class ArrowSelector {
     constructor(xPosition) {
@@ -49,27 +59,29 @@ class ArrowSelector {
     }
 }
 
-// Creating playing field boxes.
-for (let i = 0; i < playingFieldArray.length; i++) {
-    playingFieldArray[i] = new ExistenceBox((1 + WIDTH_AND_HEIGHT) * i);
-}
-
 // Create box to represent a selector.
 let selector = new ArrowSelector(0);
 
-// Chosen boxes in the playing field.
-let gameChosenBoxes = [];
-do {
-    // Don't add duplicates and don't add more than the number of boxes in the playing field.
-    const randomChoice = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
-    if (!gameChosenBoxes.includes(randomChoice) || gameChosenBoxes.length === playingFieldArray.length) {
-        gameChosenBoxes.push(randomChoice);
+// Randomly decides which boxes are traps.
+const pickBoxes = function () {
+    let newlyChosenBoxes = [];
+    do {
+        // Don't add duplicates and don't add more than the number of boxes in the playing field.
+        const randomChoice = Math.floor(Math.random() * (Math.floor(playingFieldArray.length) - Math.ceil(0))) + Math.ceil(0);
+        if (!newlyChosenBoxes.includes(randomChoice) || newlyChosenBoxes.length === playingFieldArray.length) {
+            newlyChosenBoxes.push(randomChoice);
+        }
+        // Stop the loop based on a 50-50 chance.
+    } while (Math.random() >= 0.5);
+    for (let i = 0; i < newlyChosenBoxes.length; i++) {
+        playingFieldArray[newlyChosenBoxes[i]].sprite.isChosen = true;
     }
-    // Stop the loop based on a 50-50 chance.
-} while (Math.random() >= 0.5);
-for (let i = 0; i < gameChosenBoxes.length; i++) {
-    playingFieldArray[gameChosenBoxes[i]].sprite.isChosen = true;
-}
+    return newlyChosenBoxes;
+};
+
+// Chosen boxes in the playing field.
+let gameChosenBoxes = pickBoxes();
+;
 
 // A player selected box, which is different from a game chosen box.
 let selectedBox = 0;
@@ -93,6 +105,11 @@ kontra.keys.bind(['d', 'right'], () => {
 
 // key binding for destorying a box
 kontra.keys.bind(['enter', 'space'], () => {
+    // If the player selects a trap box, enter a lose state.
+    if (playingFieldArray[selectedBox].sprite.isChosen) {
+        // enter lose state
+        console.log('bang');
+    }
     if (selectedBox === playingFieldArray.length - 1) {
         playingFieldArray.pop();
         selectedBox = 0;
@@ -103,7 +120,7 @@ kontra.keys.bind(['enter', 'space'], () => {
 
 // Will use this for restarting the game state when the player loses.
 const startPlayingField = function () {
-    
+
 };
 
 // Game loop object
