@@ -107,8 +107,7 @@ const startPlayingFieldAgain = function () {
         // If the player selects a trap box, enter a lose state.
         if (playingFieldArray[selectedBox].sprite.isTrapBox) {
             // enter lose state
-            stopEverything();
-            startPlayingFieldAgain();
+            enterLoseState();
             // Otherwise, the player chose a safe box.    
         } else {
             if (selectedBox === playingFieldArray.length - 1) {
@@ -117,6 +116,9 @@ const startPlayingFieldAgain = function () {
             } else {
                 playingFieldArray.splice(selectedBox, 1);
             }
+
+            // Increment win counter if player destroyed all safe boxes.
+
         }
     });
 };
@@ -128,6 +130,12 @@ startPlayingFieldAgain();
 const stopEverything = function () {
     // Disable playing state's keybinds.
     kontra.keys.unbind(['a', 'left', 'd', 'right', 'enter', 'space']);
+};
+
+// Handles losing.
+const enterLoseState = function () {
+    stopEverything();
+    startPlayingFieldAgain();
 };
 
 // Game loop object
