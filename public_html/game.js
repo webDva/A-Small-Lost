@@ -182,7 +182,7 @@ const mainGameLoop = kontra.gameLoop({
         selector.sprite.render();
 
         // Render the player's win score.
-        kontra.context.fillText("Win streak: " + winCounter, 0, fontHeight);
+        kontra.context.fillText("連勝: " + winCounter, 0, fontHeight); // Using Japanese to confuse the player.
     }
 });
 
