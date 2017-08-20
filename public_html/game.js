@@ -135,6 +135,10 @@ const enterLoseState = function () {
     startPlayingFieldAgain();
 };
 
+// Setting how the font will be drawn
+kontra.context.font = '30px Comic Sans MS';
+kontra.context.fillStyle = 'white';
+
 // Game loop object
 const mainGameLoop = kontra.gameLoop({
     /*
@@ -167,6 +171,9 @@ const mainGameLoop = kontra.gameLoop({
 
         // Render the selector.
         selector.sprite.render();
+
+        // Render the player's win score.
+        kontra.context.fillText("Wins: " + winCounter, 0, 30);
     }
 });
 
