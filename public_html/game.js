@@ -4,6 +4,21 @@
 
 kontra.init(); // Initializing the Kontra library.
 
+// Setting the path for images
+kontra.assets.imagePath = './assets/images';
+
+let catImage;
+
+// Loading the cat image.
+kontra.assets.load('cat.png')
+        .then(function () {
+            catImage = kontra.sprite({
+                x: kontra.canvas.width / 2,
+                y: kontra.canvas.width / 2,
+                image: kontra.assets.images.cat
+            });
+        });
+
 const WIDTH_AND_HEIGHT = 64;
 let playingFieldArray;
 let selector;
@@ -132,14 +147,19 @@ const stopEverything = function () {
 // Handles losing.
 const enterLoseState = function () {
     stopEverything();
+
     // Reset the player's win streak to zero.
     winCounter = 0;
+    // Display losing visuals/graphics.
+    catImage.render();
+
     startPlayingFieldAgain();
 };
 
 // Win state.
 const enterWinState = function () {
     stopEverything();
+
     startPlayingFieldAgain();
 };
 
