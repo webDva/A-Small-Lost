@@ -132,6 +132,8 @@ const stopEverything = function () {
 // Handles losing.
 const enterLoseState = function () {
     stopEverything();
+    // Reset the player's win streak to zero.
+    winCounter = 0;
     startPlayingFieldAgain();
 };
 
@@ -180,7 +182,7 @@ const mainGameLoop = kontra.gameLoop({
         selector.sprite.render();
 
         // Render the player's win score.
-        kontra.context.fillText("Wins: " + winCounter, 0, fontHeight);
+        kontra.context.fillText("Win streak: " + winCounter, 0, fontHeight);
     }
 });
 
