@@ -135,6 +135,12 @@ const enterLoseState = function () {
     startPlayingFieldAgain();
 };
 
+// Win state.
+const enterWinState = function () {
+    stopEverything();
+    startPlayingFieldAgain();
+};
+
 // Setting how the font will be drawn
 const fontHeight = 30;
 kontra.context.font = fontHeight + 'px Comic Sans MS';
@@ -157,7 +163,7 @@ const mainGameLoop = kontra.gameLoop({
         // Increment win counter if player destroyed all safe boxes and then change state.
         if (playingFieldArray.length === gameChosenBoxes.length) {
             winCounter++;
-            enterLoseState();
+            enterWinState();
         }
     },
 
