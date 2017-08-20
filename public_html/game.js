@@ -19,6 +19,10 @@ kontra.assets.load('cat.png')
             });
         });
 
+// Load ghost image to function as sprite for boxes now.
+let ghostImage = new Image();
+ghostImage.src = './assets/images/ghost.png';
+
 const WIDTH_AND_HEIGHT = 64;
 let playingFieldArray;
 let selector;
@@ -33,18 +37,9 @@ class ExistenceBox {
             x: xPosition,
             y: kontra.canvas.height / 2,
             color: 'red',
-            width: WIDTH_AND_HEIGHT,
-            height: WIDTH_AND_HEIGHT,
+            image: ghostImage,
 
-            isTrapBox: false,
-
-            update: () => {
-                if (this.sprite.isTrapBox) {
-                    this.sprite.color = 'green';
-                } else {
-                    this.sprite.color = 'red';
-                }
-            }
+            isTrapBox: false
         });
     }
 }
@@ -174,11 +169,6 @@ const mainGameLoop = kontra.gameLoop({
      * Used for controlling the game logic.
      */
     update: function () {
-        // Perform the playing field's logic.
-        playingFieldArray.forEach((item) => {
-            item.sprite.update();
-        });
-
         // Let selector perform it's logic.
         selector.sprite.update();
 
