@@ -9,7 +9,7 @@ let playingFieldArray;
 let selector;
 let selectedBox;
 let gameChosenBoxes;
-let winCounter;
+let winCounter = 0;
 
 // Super-like class to function as elements in the playing field array.
 class ExistenceBox {
@@ -116,9 +116,6 @@ const startPlayingFieldAgain = function () {
             } else {
                 playingFieldArray.splice(selectedBox, 1);
             }
-
-            // Increment win counter if player destroyed all safe boxes.
-
         }
     });
 };
@@ -151,6 +148,12 @@ const mainGameLoop = kontra.gameLoop({
 
         // Let selector perform it's logic.
         selector.sprite.update();
+
+        // Increment win counter if player destroyed all safe boxes and then change state.
+        if (playingFieldArray.length === gameChosenBoxes.length) {
+            winCounter++;
+            enterLoseState();
+        }
     },
 
     /*
