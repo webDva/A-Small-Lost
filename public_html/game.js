@@ -7,21 +7,13 @@ kontra.init(); // Initializing the Kontra library.
 // Setting the path for images
 kontra.assets.imagePath = './assets/images';
 
-let catImage;
-
-// Loading the cat image.
-kontra.assets.load('cat.png')
-        .then(function () {
-            catImage = kontra.sprite({
-                x: kontra.canvas.width / 2,
-                y: kontra.canvas.width / 2,
-                image: kontra.assets.images.cat
-            });
-        });
-
 // Load ghost image to function as sprite for boxes now.
 let ghostImage = new Image();
 ghostImage.src = './assets/images/ghost.png';
+
+// Cat image too.
+let catImage = new Image();
+catImage.src = './assets/images/cat.png';
 
 const WIDTH_AND_HEIGHT = 64;
 let playingFieldArray;
@@ -36,7 +28,6 @@ class ExistenceBox {
         this.sprite = kontra.sprite({
             x: xPosition,
             y: kontra.canvas.height / 2,
-            color: 'red',
             image: ghostImage,
 
             isTrapBox: false
@@ -60,9 +51,7 @@ class ArrowSelector {
         this.sprite = kontra.sprite({
             x: xPosition,
             y: (kontra.canvas.height / 2) + (WIDTH_AND_HEIGHT + 10),
-            color: 'white', // A white box for now--or, maybe, forever!
-            width: WIDTH_AND_HEIGHT,
-            height: WIDTH_AND_HEIGHT,
+            image: catImage,
             update: () => {
                 // Change the selector's position to the selected box's position.
                 this.sprite.x = playingFieldArray[selectedBox].sprite.x;
@@ -146,7 +135,6 @@ const enterLoseState = function () {
     // Reset the player's win streak to zero.
     winCounter = 0;
     // Display losing visuals/graphics.
-    catImage.render();
 
     startPlayingFieldAgain();
 };
